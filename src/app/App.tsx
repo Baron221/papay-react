@@ -1,7 +1,7 @@
 import React from 'react';
 import '../css/App.css';
 import { Container,Stack,Box, Typography,Button} from '@mui/material';
-
+import { RippleBadge } from './Material Theme/styled';
 function App() {
   return (
     <Container maxWidth="sm">
@@ -11,7 +11,12 @@ function App() {
             Create React App on Typescript with Redux
           </Typography>
         </Box>
-        <Button variant='contained'>Contained</Button>
+        <Box>
+          <RippleBadge badgeContent={4}>
+
+         <Button color="secondary" variant='contained'>Contained</Button>
+          </RippleBadge>
+        </Box>
       </Stack>
     </Container>
   );
