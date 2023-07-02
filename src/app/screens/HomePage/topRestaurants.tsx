@@ -21,7 +21,7 @@ export function TopRestaurants() {
           sx={{ mt: "45px" }}
         >
           <Box className="category_title">TOP Restaurantlar</Box>
-          <Stack sx={{ mt: "43px" }} flexDirection={"row"} m={"16px"}></Stack>
+          <Stack sx={{ mt: "43px" }} flexDirection={"row"} m={"16px"}>
           <CssVarsProvider>
           <Card sx={{ 
             minHeight: 430, 
@@ -248,6 +248,8 @@ export function TopRestaurants() {
                 </Typography>
             </CardOverflow>
           </Card>
+          
+          
           <Card sx={{ 
             minHeight: 430, 
             width: 325 ,
@@ -323,10 +325,10 @@ export function TopRestaurants() {
                 </Typography>
             </CardOverflow>
           </Card>
-          
+
 
           </CssVarsProvider>
-         
+          </Stack>
         </Stack>
       </Container>
     </div>
