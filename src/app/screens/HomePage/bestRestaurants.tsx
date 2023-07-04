@@ -1,12 +1,12 @@
 import React from "react";
-import { Box, Container, Stack } from "@mui/material";
+import { Box, Container, Stack,Button } from "@mui/material";
 import Card from "@mui/joy/Card";
 import CardCover from "@mui/joy/CardCover";
 import CardContent from "@mui/joy/CardContent";
 import Typography from "@mui/joy/Typography";
 import LocationOnRoundedIcon from "@mui/icons-material/LocationOnRounded";
 import { CssVarsProvider } from "@mui/joy/styles";
-import { CardOverflow, IconButton, AspectRatio, Link, Button } from "@mui/joy";
+import { CardOverflow, IconButton, AspectRatio, Link } from "@mui/joy";
 import { Favorite } from "@mui/icons-material";
 import Visibility from "@mui/icons-material/Visibility";
 import CallIcon from "@mui/icons-material/Call";
@@ -431,8 +431,8 @@ export function BestRestaurants() {
           >
             <Button style={{ background: "#1976d2", color: "#ffffff" }}>
               Barchasini Ko'rish
-            </Button>
-          </Stack>
+            </Button> 
+           </Stack>
         </Stack>
       </Container>
     </div>
