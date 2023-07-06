@@ -1,16 +1,16 @@
 import React from "react";
 import { Badge, Box, Button, Checkbox, Container, Stack } from "@mui/material";
-import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew"
-import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos"
-import SearchIcon from "@mui/icons-material/Search"
-import { Swiper, SwiperSlide } from 'swiper/react'
+import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
+import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
+import SearchIcon from "@mui/icons-material/Search";
+import { Swiper, SwiperSlide } from 'swiper/react';
 import { Favorite, FavoriteBorder } from "@mui/icons-material";
-import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye"
-import MonetizationOnIcon from "@mui/icons-material/MonetizationOn"
-import StarIcon from "@mui/icons-material/Star"
-const restaurants_list = Array.from(Array(10).keys())
-const product_list = Array.from(Array(8).keys())
+import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
+import MonetizationOnIcon from "@mui/icons-material/MonetizationOn";
+import StarIcon from "@mui/icons-material/Star";
 
+const restaurants_list = Array.from(Array(10).keys());
+const product_list = Array.from(Array(8).keys());
 
 export function OneRestaurant() {
    return <div className="single_restaurant">
@@ -66,7 +66,7 @@ export function OneRestaurant() {
                            key={index}
                            className="restaurant_avatars"
                         >
-                           <img src="/restaurant/burak.jpeg" alt="" />
+                           <img src="/restaurant/burak.png" alt="" />
                            <span>Burak</span>
                         </SwiperSlide>
                      );
@@ -161,7 +161,7 @@ export function OneRestaurant() {
                         <Box display={"flex"} justifyContent={"center"}>
                            <img src="/community/communityUser.jpg" className="review_img" alt="" />
                         </Box>
-                        <span className="review_name">Javokhirbek</span>
+                        <span className="review_name">Baron</span>
                         <span className="review_prof">Foydalanuvchi</span>
                         <p className="review_desc">I really liked the foods of this restaurants. Class! Will recommend to all guys!!</p>
                         <div className="review_stars">
