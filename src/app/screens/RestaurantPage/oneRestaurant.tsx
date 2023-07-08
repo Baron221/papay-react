@@ -159,7 +159,7 @@ export function OneRestaurant() {
                   return (
                      <Box className="review_box" key={index}>
                         <Box display={"flex"} justifyContent={"center"}>
-                           <img src="/community/communityUser.jpg" className="review_img" alt="" />
+                           <img src="/restaurant/bestres.png" className="review_img" alt="" />
                         </Box>
                         <span className="review_name">Baron</span>
                         <span className="review_prof">Foydalanuvchi</span>
