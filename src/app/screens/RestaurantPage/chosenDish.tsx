@@ -38,19 +38,33 @@ export function ChosenDish() {
                                     style={{ width: "100%", height: "100%"}}
                                     src={image_path}
                                     />
-                                     <img
-                                    style={{ width: "100%", height: "100%"}}
-                                    src={image_path}
-                                    />
-                                     <img
-                                    style={{ width: "100%", height: "100%"}}
-                                    src={image_path}
-                                    />
+                                    
                                 </SwiperSlide>
                             );
                         })}
 
                     </Swiper>
+                    
+            <Swiper
+               loop={true}
+               spaceBetween={10}
+               modules={[FreeMode, Navigation, Thumbs]}
+               style={{ width: "500px", height: "245px", marginTop: "20px" }}
+               slidesPerView={1}
+            >
+               {chosen_list.map((ele) => {
+                  const img_path = `/others/gosht.png`
+                  return (
+                     <SwiperSlide style={{ width: "100%", height: "100%", display: "flex" }}>
+                        <img src={img_path} style={{ borderRadius: "15px", marginRight: "20px" }} alt="" />
+                        <img src={img_path} style={{ borderRadius: "15px", marginRight: "20px" }} alt="" />
+                        <img src={img_path} style={{ borderRadius: "15px", marginRight: "20px" }} alt="" />
+                     </SwiperSlide>
+                  )
+               })}
+            </Swiper>
+
+                    
                 </Stack>
 
                 <Stack className={"chosen_dish_info_container"}>
