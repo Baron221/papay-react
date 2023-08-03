@@ -1,8 +1,17 @@
-import { Box, Container, Stack,Button, IconButton, Badge } from "@mui/material";
-import React from "react";
+import React, { useState, useEffect } from "react";
+import {
+  Box,
+  Container,
+  Stack,
+  Button,
+  IconButton,
+  Badge,
+} from "@mui/material";
 import { NavLink } from "react-router-dom";
 
-export function NavbarHome(props:any) {
+export function NavbarHome(props: any) {
+  const [count, setCount] = useState(0);
+
   return (
     <div className="format home_navbar">
       <Container>
@@ -12,7 +21,7 @@ export function NavbarHome(props:any) {
           justifyContent={"space-between"}
         >
           <Box>
-            <img src="/icons/Papay.svg"  />
+            <img src="/icons/Papay.svg" />
           </Box>
           <Stack
             flexDirection={"row"}
@@ -47,40 +56,60 @@ export function NavbarHome(props:any) {
             </Box>
             <Box className="hover-line">
               <IconButton
-              aria-label="cart"
-              id="black-button"
-              aria-controls={undefined} 
-              aria-haspopup="true"
-              aria-expanded={undefined}
-            //   onClick={handleClick}
+                aria-label="cart"
+                id="black-button"
+                aria-controls={undefined}
+                aria-haspopup="true"
+                aria-expanded={undefined}
+                //   onClick={handleClick}
               >
-               <Badge badgeContent={3} color="secondary">
-                <img src={'/icons/shopping-cart.svg'} alt="" />
-               </Badge>
+                <Badge badgeContent={3} color="secondary">
+                  <img src={"/icons/shopping-cart.svg"} alt="" />
+                </Badge>
               </IconButton>
             </Box>
             <Box>
-                <Button variant="contained" 
-                style={{color:'#ffffff',background:"#1976d2"}}>KIRISH</Button>
+              <Button
+                variant="contained"
+                style={{ color: "#ffffff", background: "#1976d2" }}
+              >
+                KIRISH
+              </Button>
             </Box>
-
           </Stack>
         </Stack>
         <Stack className="head_information" justifyContent={"row"}>
-            <Stack justifyContent={'column'}
-            style={{marginTop:"86px",marginLeft:"24px"}}>
-                <Box><img src="/icons/WelcometoPapay.svg" alt="" /></Box>
-                <Box className="define_restaurant">The Authentic Restaurant & Cafe</Box>
-                <Box className="timeline_service">24 soat xizmatingizdamiz</Box>
-                <Box sx={{mt:"90px"}}>
-                    <Button variant="contained" style={{width:"210px",height:"60px",background:'#1976d2',color:'#ffffff'}}>
-                        RO'YXATDAN O'TISH
-                        </Button>
-                        </Box>
-              </Stack>
-            <Stack flexDirection={'column'}>
-                <Box className="big_img"></Box>
-            </Stack>
+          <Stack
+            justifyContent={"column"}
+            style={{ marginTop: "86px", marginLeft: "24px" }}
+          >
+            <Box>
+              <img src="/icons/WelcometoPapay.svg" alt="" />
+            </Box>
+            <Box className="define_restaurant">
+              The Authentic Restaurant & Cafe
+            </Box>
+            <Box className="timeline_service">
+              {count} soat xizmatingizdamiz
+            </Box>
+            <Box sx={{ mt: "90px" }}>
+              <Button
+                variant="contained"
+                style={{
+                  width: "210px",
+                  height: "60px",
+                  background: "#1976d2",
+                  color: "#ffffff",
+                }}
+                onClick={() => setCount(count + 1)}
+              >
+                RO'YXATDAN O'TISH
+              </Button>
+            </Box>
+          </Stack>
+          <Stack flexDirection={"column"}>
+            <Box className="big_img"></Box>
+          </Stack>
         </Stack>
       </Container>
     </div>

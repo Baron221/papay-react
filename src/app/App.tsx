@@ -77,8 +77,8 @@ function App() {
           </Route>
         
           <Route path="/">
-            <Car/>
-            {/* <HomePage /> */}
+            {/* <Car/> */}
+            <HomePage /> 
           </Route>
         </Switch>
       <Footer/>
