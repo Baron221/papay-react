@@ -13,9 +13,10 @@ import "../../../css/home.css";
 import { useDispatch, useSelector } from "react-redux";
 import { Dispatch } from "@reduxjs/toolkit";
 import { createSelector } from "@reduxjs/toolkit";
-import { setTopRestaurants } from "../../screens/HomePage/slice";
+import { setTopRestaurants ,setBestRestaurants} from "../../screens/HomePage/slice";
 import { retrieveTopRestaurants } from "../../screens/HomePage/selector";
 import { Restaurant } from "../../types/user";
+import RestaurantApiService from "../../apiServices/restaurantApiService";
 
 
 /** Redux Slice */
@@ -40,8 +41,11 @@ export function HomePage() {
 
   useEffect(() => {
     //backend data request
- 
-        setTopRestaurants([]);
+    const restaurantService = new RestaurantApiService();
+    restaurantService.getTopRestaurants().then(data => {
+
+      setTopRestaurants(data);
+    }).catch(err => console.log(err));
   }, []);
 
   return (
