@@ -1,18 +1,25 @@
 import React from "react";
-import { Box, Container, Stack,Button, IconButton, Badge } from "@mui/material";
+import {
+  Box,
+  Container,
+  Stack,
+  Button,
+  IconButton,
+  Badge,
+} from "@mui/material";
 import { NavLink } from "react-router-dom";
 
-
-export function NavbarRestaurant(props:any){
-  return (<div className="format_restaurant home_navbar">
-     <Container>
+export function NavbarRestaurant(props: any) {
+  return (
+    <div className="format_restaurant home_navbar">
+      <Container>
         <Stack
           flexDirection={"row"}
           className="navbar_config"
           justifyContent={"space-between"}
         >
           <Box>
-            <img src="/icons/Papay.svg"  />
+            <img src="/icons/Papay.svg" />
           </Box>
           <Stack
             flexDirection={"row"}
@@ -21,9 +28,7 @@ export function NavbarRestaurant(props:any){
             className="navbar_links"
           >
             <Box className="hover-line" onClick={props.setPath}>
-              <NavLink to="/" >
-                Bosh Sahifa
-              </NavLink>
+              <NavLink to="/">Bosh Sahifa</NavLink>
             </Box>
             <Box className="hover-line" onClick={props.setPath}>
               <NavLink to="/restaurant" activeClassName="underline">
@@ -47,25 +52,30 @@ export function NavbarRestaurant(props:any){
             </Box>
             <Box className="hover-line">
               <IconButton
-              aria-label="cart"
-              id="black-button"
-              aria-controls={undefined} 
-              aria-haspopup="true"
-              aria-expanded={undefined}
-            //   onClick={handleClick}
+                aria-label="cart"
+                id="black-button"
+                aria-controls={undefined}
+                aria-haspopup="true"
+                aria-expanded={undefined}
+                //   onClick={handleClick}
               >
-               <Badge badgeContent={3} color="secondary">
-                <img src={'/icons/shopping-cart.svg'} alt="" />
-               </Badge>
+                <Badge badgeContent={3} color="secondary">
+                  <img src={"/icons/shopping-cart.svg"} alt="" />
+                </Badge>
               </IconButton>
             </Box>
             <Box>
-                <Button variant="contained" 
-                style={{color:'#ffffff',background:"#1976d2"}}>KIRISH</Button>
+              <Button
+                variant="contained"
+                style={{ color: "#ffffff", background: "#1976d2" }}
+                onClick={props.handleLoginOpen}
+              >
+                KIRISH
+              </Button>
             </Box>
-
           </Stack>
         </Stack>
-        
-      </Container></div>)
+      </Container>
+    </div>
+  );
 }

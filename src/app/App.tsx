@@ -20,71 +20,83 @@ import Car from "./screens/testCar";
 import AuthenticationModal from "./components/auth";
 
 function App() {
-  const [path,setPath] =useState()
+  /**INITIALIZATION  */
+
+  const [path, setPath] = useState();
   const main_path = window.location.pathname;
+  const [signUpOpen, setSignUpOpen] = useState(true);
+  const [loginOpen, setLoginOpen] = useState(false);
+
+  /**HANDLERS */
+  const handleSignUpOpen = () => {
+    setSignUpOpen(true);
+  };
+
+  const handleSignUpClose = () => {
+    setSignUpOpen(false);
+  };
+
+  const handleLoginOpen = () => {
+    setLoginOpen(true);
+  };
+
+  const handleLoginClose = () => {
+    setLoginOpen(false);
+  };
+
   return (
     <Router>
+      {main_path == "/" ? (
+        <NavbarHome 
+        setPath={setPath} 
+        handleLoginOpen={handleLoginOpen}
+        handleSignUpOpen={handleSignUpOpen}
+        />
+      ) : main_path.includes("/restaurant") ? (
+        <NavbarRestaurant 
+        setPath={setPath} 
+        handleLoginOpen={handleLoginOpen}
+        handleSignUpOpen={handleSignUpOpen} />
+      ) : (
+        <NavbarOthers    setPath={setPath} 
+        handleLoginOpen={handleLoginOpen}
+        handleSignUpOpen={handleSignUpOpen} />
+      )}
 
-      {main_path == '/'?(
-      <NavbarHome setPath={setPath}/>):main_path.includes('/restaurant')?(<NavbarRestaurant setPath={setPath}/>):(<NavbarOthers setPath={setPath}/>)}
-       <div>
-      {/*//   <div>
-    //     <nav>
-    //       <ul>
-    //         <li>
-    //           <Link to="/restaurant">RestaurantPage</Link>
-    //         </li>
-    //         <li>
-    //           <Link to="/community">CommunityPage</Link>
-    //         </li>
-    //         <li>
-    //           <Link to="/orders">OrdersPage</Link>
-    //         </li>
-    //         <li>
-    //           <Link to="/member-page">MemberPage</Link>
-    //         </li>
-    //         <li>
-    //           <Link to="/help">HelpPage</Link>
-    //         </li>
-    //         <li>
-    //           <Link to="/login">LoginPage</Link>
-    //         </li>
-    //         <li>
-    //           <Link to="/">Homepage</Link>
-    //         </li>
-    //       </ul>
-  //     </nav>*/}
+      <Switch>
+        <Route path="/restaurant">
+          <RestaurantPage />
+        </Route>
+        <Route path="/community">
+          <CommunityPage />
+        </Route>
+        <Route path="/orders">
+          <OrdersPage />
+        </Route>
+        <Route path="/member-page">
+          <MemberPage />
+        </Route>
+        <Route path="/help">
+          <HelpPage />
+        </Route>
+        <Route path="/login">
+          <LoginPage />
+        </Route>
 
-        {/* A <Switch> looks through its children <Route>s and
-            renders the first one that matches the current URL. */}
-        <Switch>
-          <Route path="/restaurant">
-            <RestaurantPage/>
-          </Route>
-          <Route path="/community">
-            <CommunityPage />
-          </Route>
-          <Route path="/orders">
-            <OrdersPage/>
-          </Route>
-          <Route path="/member-page">
-            <MemberPage />
-          </Route>
-          <Route path="/help">
-            <HelpPage />
-          </Route>
-          <Route path="/login">
-            <LoginPage />
-          </Route>
-        
-          <Route path="/">
-            {/* <Car/> */}
-            <HomePage /> 
-          </Route>
-        </Switch>
-      <Footer/>
-      <AuthenticationModal/>
-      </div>
+        <Route path="/">
+          {/* <Car/> */}
+          <HomePage />
+        </Route>
+      </Switch>
+      <Footer />
+      <AuthenticationModal
+        loginOpen={loginOpen}
+        handleLoginOpen={handleLoginOpen}
+        handleLoginClose={handleLoginClose}
+        signUpOpen={signUpOpen}
+        handleSignUpOpen={handleSignUpOpen}
+        handleSignUpClose={handleSignUpClose}
+      />
     </Router>
   );
 }
