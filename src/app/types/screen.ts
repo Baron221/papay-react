@@ -4,6 +4,7 @@ import { Restaurant } from "./user";
 
 export interface AppRootState{
     homePage : HomePageState;
+    restaurantPage:RestaurantPageState;
 }
 
 export interface HomePageState {
@@ -13,4 +14,13 @@ export interface HomePageState {
     bestBoArticles?: BoArticles[];
     trendBoArticles?: BoArticles[];
     newsBoArticles?: BoArticles[]
+}
+
+export interface RestaurantPageState{
+    targetRestaurants:Restaurant[];
+    randomRestaurants:Restaurant[];
+    chosenRestaurant:Restaurant|null;
+    targetProducts:Product[];
+    chosenProduct:Product|null;
+
 }
