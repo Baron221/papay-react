@@ -17,7 +17,7 @@ import { createSelector } from "@reduxjs/toolkit";
 import { retrieveTopRestaurants } from "../../screens/HomePage/selector";
 import { Restaurant } from "../../types/user";
 import { serviceApi } from "../../../lib/config";
-import { sweetErrorHandling } from "../../../lib/sweetAlert";
+import { sweetErrorHandling, sweetTopSmallSuccessAlert } from "../../../lib/sweetAlert";
 import assert from "assert";
 import { Definer } from "../../../lib/Definer";
 import MemberApiService from "../../apiServices/memberApiService";
@@ -61,6 +61,8 @@ export function TopRestaurants() {
         e.target.style.fill = "white";
         refs.current[like_result.like_ref_id].innerHTML--;
       }
+      await sweetTopSmallSuccessAlert("success", 700 ,false)
+
     } catch (err: any) {
       console.log("targetLikeTop, ERORR:", err);
       sweetErrorHandling(err).then();
@@ -79,6 +81,10 @@ export function TopRestaurants() {
           <Stack sx={{ mt: "43px" }} flexDirection={"row"} m={"16px"}>
             {topRestaurants?.map((ele: Restaurant) => {
               const image_path = `${serviceApi}/${ele.mb_image}`;
+              function targetLikeHandler(e: React.MouseEvent<SVGSVGElement, MouseEvent>, _id: string): void {
+                throw new Error("Function not implemented.");
+              }
+
               return (
                 <CssVarsProvider key={ele._id}>
                   <Card
@@ -143,7 +149,7 @@ export function TopRestaurants() {
                           e.stopPropagation();}}
                       >
                         <Favorite
-                          onClick={(e) => targetLikeTop(e, ele._id)}
+                          onClick={(e) => targetLikeHandler(e, ele._id)}
                           style={{
                             fill:
                               ele?.me_liked && ele?.me_liked[0]?.my_favorite
