@@ -394,7 +394,7 @@ export function BestRestaurants() {
                       color: "rgba(0,0,0,.4)",
                     }}
                   >
-                    <Favorite style={{ fill: "white" }} />
+                     
                   </IconButton>
                   <Typography
                     level="body3"
