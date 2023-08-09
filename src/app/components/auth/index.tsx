@@ -7,7 +7,7 @@ import { Fab, Stack, TextField } from "@mui/material";
 import styled from "styled-components";
 import LoginIcon from "@mui/icons-material/Login";
 import { sweetErrorHandling } from "../../../lib/sweetAlert";
-import assert from 'assert';
+import assert from "assert";
 import { Definer } from "../../../lib/Definer";
 import MemberApiService from "../../apiServices/memberApiService";
 
@@ -36,73 +36,70 @@ const ModalImg = styled.img`
 
 export default function AuthenticationModal(props: any) {
   /**INITIALIZATIONS */
-  const classes =useStyles();
-  let mb_nick:string ="",
-     mb_phone:number = 0,
-     mb_password:string= "";
- 
+  const classes = useStyles();
+  let mb_nick: string = "",
+    mb_phone: number = 0,
+    mb_password: string = "";
 
   /**HANDLERS */
-  const handleUserName = (e:any)=>{
-    mb_nick = e.target.value
-    console.log(mb_nick)
-  }
+  const handleUserName = (e: any) => {
+    mb_nick = e.target.value;
+    console.log(mb_nick);
+  };
 
-  const handlePhone = (e:any)=>{
-    mb_phone = e.target.value
-    console.log(mb_phone)
-  }
+  const handlePhone = (e: any) => {
+    mb_phone = e.target.value;
+    console.log(mb_phone);
+  };
 
-  const handlePassword = (e:any)=>{
-    mb_password = e.target.value
-    console.log(mb_password)
-  }
+  const handlePassword = (e: any) => {
+    mb_password = e.target.value;
+    console.log(mb_password);
+  };
   const handleSignUpRequest = async () => {
-    try{
-      const is_fulfilled =mb_nick != "" && mb_password != "" && mb_phone != 0;
-      assert.ok(is_fulfilled , Definer.input_err1);
+    try {
+      const is_fulfilled = mb_nick != "" && mb_password != "" && mb_phone != 0;
+      assert.ok(is_fulfilled, Definer.input_err1);
 
-      const signup_data ={
-        mb_nick:mb_nick,
-        mb_phone:mb_phone,
-        mb_password: mb_password
-      }
+      const signup_data = {
+        mb_nick: mb_nick,
+        mb_phone: mb_phone,
+        mb_password: mb_password,
+      };
 
       const memberApiService = new MemberApiService();
       await memberApiService.signupRequest(signup_data);
 
       props.handleSignUpClose();
       window.location.reload;
-
-    }catch(err){
+    } catch (err) {
       console.log(err);
       props.handleLoginClose();
-      sweetErrorHandling(err).then()
+      sweetErrorHandling(err).then();
     }
-
-  }
+  };
 
   const handleLoginRequest = async () => {
-    try{
-      const is_fulfilled =mb_nick != "" && mb_password != ""
-      assert.ok(is_fulfilled , Definer.input_err1);
+    try {
+      const is_fulfilled = mb_nick != "" && mb_password != "";
+      assert.ok(is_fulfilled, Definer.input_err1);
 
-      const login_data ={
-        mb_nick:mb_nick,
-        mb_password: mb_password
-      }
+      const login_data = {
+        mb_nick: mb_nick,
+        mb_password: mb_password,
+      };
 
       const memberApiService = new MemberApiService();
-      await memberApiService.loginRequest(login_data)
+      await memberApiService.loginRequest(login_data);
 
       props.handleLoginClose();
-      window.location.reload
-       }catch(err){
+      window.location.reload;
+    } catch (err) {
       console.log(err);
       props.handleLoginClose();
-      sweetErrorHandling(err).then()
+      sweetErrorHandling(err).then();
     }
-  }
+  };
   return (
     <div>
       {/*@ts-ignore*/}
@@ -190,7 +187,7 @@ export default function AuthenticationModal(props: any) {
             >
               <h2>Login Form</h2>
               <TextField
-                onChange ={handleUserName}
+                onChange={handleUserName}
                 id="outlined-basic"
                 label="username"
                 variant="outlined"

@@ -1,6 +1,6 @@
 import { Box, Container } from "@mui/material";
 import { Stack } from "@mui/system";
-import React,{useRef} from "react";
+import React, { useRef } from "react";
 import { useHistory } from "react-router-dom";
 import Card from "@mui/joy/Card";
 import CardCover from "@mui/joy/CardCover";
@@ -32,41 +32,35 @@ const topRestaurantRetriever = createSelector(
 
 export function TopRestaurants() {
   /**INITIALIZATIONS */
-  const history = useHistory()
+  const history = useHistory();
   const { topRestaurants } = useSelector(topRestaurantRetriever);
 
   console.log("topRestaurants:::", topRestaurants);
-  const refs:any = useRef([]); 
-
+  const refs: any = useRef([]);
 
   /*HANDLERS */
-  
-  const chosenRestaurantHandler = (id:string) =>{
-    history.push(`/restaurant/${id}`)
-   }
-  
+
+  const chosenRestaurantHandler = (id: string) => {
+    history.push(`/restaurant/${id}`);
+  };
+
   const targetLikeTop = async (e: any, id: string) => {
     try {
       assert.ok(localStorage.getItem("member_data"), Definer.auth_err1);
       const memberService = new MemberApiService();
-      const like_result:any = await memberService.memberLikeTarget({
+      const like_result: any = await memberService.memberLikeTarget({
         like_ref_id: id,
         group_type: "member",
       });
-      assert.ok(like_result,Definer.general_err1);
+      assert.ok(like_result, Definer.general_err1);
 
-      if(like_result.like_status > 0){
-        e.target.style.fill ='red';
+      if (like_result.like_status > 0) {
+        e.target.style.fill = "red";
         refs.current[like_result.like_ref_id].innerHTML++;
-
-
-      }else{
-        e.target.style.fill ='white';
+      } else {
+        e.target.style.fill = "white";
         refs.current[like_result.like_ref_id].innerHTML--;
-
-
       }
-
     } catch (err: any) {
       console.log("targetLikeTop, ERORR:", err);
       sweetErrorHandling(err).then();
@@ -88,7 +82,7 @@ export function TopRestaurants() {
               return (
                 <CssVarsProvider key={ele._id}>
                   <Card
-                  onClick={()=>chosenRestaurantHandler(ele._id)}
+                    onClick={() => chosenRestaurantHandler(ele._id)}
                     sx={{
                       minHeight: 430,
                       minWidth: 325,
@@ -145,6 +139,8 @@ export function TopRestaurants() {
                           transform: "translateY(50%)",
                           color: "rgba(0, 0, 0, .4)",
                         }}
+                        onClick={(e)=>{
+                          e.stopPropagation();}}
                       >
                         <Favorite
                           onClick={(e) => targetLikeTop(e, ele._id)}
@@ -180,7 +176,11 @@ export function TopRestaurants() {
                           display: "flex",
                         }}
                       >
-                        <div ref={(element)=> (refs.current[ele._id] = element)}>{ele.mb_likes}</div>
+                        <div
+                          ref={(element) => (refs.current[ele._id] = element)}
+                        >
+                          {ele.mb_likes}
+                        </div>
                         <Favorite sx={{ fontSize: 20, marginLeft: "5px" }} />
                       </Typography>
                     </CardOverflow>
