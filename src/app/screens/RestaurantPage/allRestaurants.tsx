@@ -33,6 +33,7 @@ import assert from "assert";
 import { Definer } from "../../../lib/Definer";
 import MemberApiService from "../../apiServices/memberApiService";
 import { sweetErrorHandling, sweetTopSmallSuccessAlert } from "../../../lib/sweetAlert";
+import { useHistory } from "react-router-dom";
 
 const actionDispatch = (dispatch: Dispatch) => ({
   setTargetRestaurants: (data: Restaurant[]) =>
@@ -51,6 +52,7 @@ const refs: any = useRef([]);
 
 
 export function AllRestaurants() {
+  const history = useHistory();
   const { setTargetRestaurants } = actionDispatch(useDispatch());
   const { targetRestaurants } = useSelector(targetRestaurantsRetriever);
   const [targetSearchObject, setTargetSearchObject] = useState<SearchObj>({
@@ -68,6 +70,9 @@ export function AllRestaurants() {
   }, [targetSearchObject]);
 
   /*HANDLERS */
+  const chosenRestaurantHandler = (id:string) => {
+    history.push("/restaurant/${id")
+  }
 
   const searchHandler = (category: string) => {
     targetSearchObject.page = 1;
@@ -141,12 +146,14 @@ export function AllRestaurants() {
                 const image_path = `${serviceApi}/${ele.mb_image}`;
                 return (
                   <Card
+                  onClick={()=>chosenRestaurantHandler(ele._id)}
                     variant="outlined"
                     sx={{
                       minHeight: 410,
                       minWidth: 290,
                       mx: "17px",
                       my: "20px",
+                      cursor:"pointer"
                     }}
                   >
                     <CardOverflow>
