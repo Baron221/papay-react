@@ -5,6 +5,7 @@ export interface MeLiked {
 }
 
 export interface Product {
+    me_liked: MeLiked[];
     _id : string;
     product_name: string;
     product_collection: string;
@@ -21,6 +22,5 @@ export interface Product {
     restaurant_mb_id: string;
     created_at: Date;
     updatedAt: Date;
-    mb_liked: MeLiked[];
 }
 

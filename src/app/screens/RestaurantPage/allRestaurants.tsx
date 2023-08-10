@@ -48,7 +48,6 @@ const targetRestaurantsRetriever = createSelector(
   })
 );
 
-const refs: any = useRef([]);
 
 
 export function AllRestaurants() {
@@ -60,6 +59,7 @@ export function AllRestaurants() {
     limit: 8,
     order: "mb_point",
   });
+  const refs: any = useRef([]);
 
   useEffect(() => {
     const restaurantService = new RestaurantApiService();
