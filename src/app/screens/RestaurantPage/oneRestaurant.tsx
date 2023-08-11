@@ -62,6 +62,7 @@ export function OneRestaurant() {
 
    /**INITIALIZATIONS */
    const history = useHistory();
+   const refs: any = useRef([]);
    let { restaurant_id } = useParams<{ restaurant_id: string }>();
    const { setRandomRestaurants, setChosenRestaurant, setTargetProducts } = actionDispatch(useDispatch());
    const { randomRestaurants } = useSelector(randomRestaurantsRetriever);
@@ -289,7 +290,7 @@ export function OneRestaurant() {
                         <Box display={"flex"} justifyContent={"center"}>
                            <img src="/community/communityUser.jpg" className="review_img" alt="" />
                         </Box>
-                        <span className="review_name">Javokhirbek</span>
+                        <span className="review_name">BARON</span>
                         <span className="review_prof">Foydalanuvchi</span>
                         <p className="review_desc">I really liked the foods of this restaurants. Class! Will recommend to all guys!!</p>
                         <div className="review_stars">
@@ -318,7 +319,7 @@ export function OneRestaurant() {
                backgroundImage: ` url(http://papays.uz:3003/uploads/members/d04f2ff1-02cb-4191-b65b-7d6bdfa87681.jpeg);
 }` }}>
                <div className="about_left_desc">
-                  <span>Abdurashid oshpaz</span>
+                  <span>Asqar oshpaz</span>
                   <p>Eng mazali oshxona</p>
                </div>
             </Box>

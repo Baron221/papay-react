@@ -7,7 +7,7 @@ if(cookies.get("access_token")){
     const memberDataJson :any = localStorage.getItem("member_data")
     ? localStorage.getItem("member_data")
     : null;
-    member_data = memberDataJson?JSON.parse(memberDataJson): null;
+    member_data = memberDataJson ? JSON.parse(memberDataJson): null;
 }else{
     console.log('passed')
     localStorage.removeItem("member_data");
@@ -18,3 +18,7 @@ console.log('==verify==');
 console.log(member_data);
 
 export const verifyMemberData = member_data ? member_data : null;
+
+if (!cookies.get("access_token")) {
+    localStorage.removeItem("member_data")
+}

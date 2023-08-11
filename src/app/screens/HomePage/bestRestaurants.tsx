@@ -72,6 +72,8 @@ export function BestRestaurants() {
                 <Box className="category_title">
                     Zo'r restaurantlar
                 </Box>
+
+
                 <Stack sx={{ mt: "43px" }} flexDirection={"row"}>
                     {bestRestaurants?.map((ele: Restaurant) => {
                         const image_path = `${serviceApi}/${ele.mb_image}`
