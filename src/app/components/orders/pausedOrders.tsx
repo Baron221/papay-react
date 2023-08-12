@@ -2,12 +2,49 @@ import { Box, Stack } from "@mui/material";
 import Button from "@mui/material/Button";
 import TabPanel from '@mui/lab/TabPanel';
 
+//Redux
+import {
+    retrievePausedOrders,
+
+  } from "../../screens/OrdersPage/selector";
+  import { useDispatch, useSelector } from "react-redux";
+  import { Dispatch } from "@reduxjs/toolkit";
+  import { createSelector } from "reselect";
+  import {
+     setChosenRestaurant,
+    setRandomRestaurants,
+    setTargetProducts,
+  } from "../../screens/RestaurantPage/slice";
+  
+  import { serviceApi } from "../../../lib/config";
+  import assert from "assert";
+  import { Definer } from "../../../lib/Definer";
+  import {
+    sweetErrorHandling,
+    sweetTopSmallSuccessAlert,
+  } from "../../../lib/sweetAlert";
+  import { useHistory } from "react-router-dom";
+
+
+  
+  /** Redux Selector */
+  const pausedOrdersRetriever = createSelector(
+    retrievePausedOrders,
+    (pausedOrders) => ({
+        pausedOrders,
+    })
+  );
+
+
 const pausedOrders = [
     [1, 2, 3],
     [1, 2, 3],
     [1, 2, 3]
 ]
 export default function PausedOrders(props: any) {
+    /**INITIALIZATIONS */
+    // const { pausedOrders } = useSelector(pausedOrdersRetriever);
+
     return (
         <TabPanel value="1">
             <Stack>

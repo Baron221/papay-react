@@ -3,6 +3,41 @@ import Button from "@mui/material/Button";
 import TabPanel from '@mui/lab/TabPanel';
 import moment from "moment";
 
+
+//Redux
+import {
+    retrieveFinishedOrders,
+
+  } from "../../screens/OrdersPage/selector";
+  import { useDispatch, useSelector } from "react-redux";
+  import { Dispatch } from "@reduxjs/toolkit";
+  import { createSelector } from "reselect";
+  import {
+     setChosenRestaurant,
+    setRandomRestaurants,
+    setTargetProducts,
+  } from "../../screens/RestaurantPage/slice";
+  
+  import { serviceApi } from "../../../lib/config";
+  import assert from "assert";
+  import { Definer } from "../../../lib/Definer";
+  import {
+    sweetErrorHandling,
+    sweetTopSmallSuccessAlert,
+  } from "../../../lib/sweetAlert";
+  import { useHistory } from "react-router-dom";
+
+
+  
+  /** Redux Selector */
+  const finishedOrdersRetriever = createSelector(
+    retrieveFinishedOrders,
+    (finishedOrders) => ({
+        finishedOrders,
+    })
+  );
+
+
 const finishedOrders = [
     [1, 2, 3],
     [1, 2, 3],
@@ -10,6 +45,9 @@ const finishedOrders = [
 ]
 
 export default function FinishedOrders(props:any){
+
+      /**INITIALIZATIONS */
+    // const { finishedOrders } = useSelector(finishedOrdersRetriever);
     return (
         <TabPanel value="3">
             <Stack>

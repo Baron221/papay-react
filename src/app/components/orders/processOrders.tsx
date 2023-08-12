@@ -3,6 +3,40 @@ import Button from "@mui/material/Button";
 import TabPanel from '@mui/lab/TabPanel';
 import moment from "moment";
 
+//Redux
+import {
+    retrievePausedOrders, retrieveProcessOrders,
+
+  } from "../../screens/OrdersPage/selector";
+  import { useDispatch, useSelector } from "react-redux";
+  import { Dispatch } from "@reduxjs/toolkit";
+  import { createSelector } from "reselect";
+  import {
+     setChosenRestaurant,
+    setRandomRestaurants,
+    setTargetProducts,
+  } from "../../screens/RestaurantPage/slice";
+  
+  import { serviceApi } from "../../../lib/config";
+  import assert from "assert";
+  import { Definer } from "../../../lib/Definer";
+  import {
+    sweetErrorHandling,
+    sweetTopSmallSuccessAlert,
+  } from "../../../lib/sweetAlert";
+  import { useHistory } from "react-router-dom";
+
+
+  
+  /** Redux Selector */
+  const processOrdersRetriever = createSelector(
+    retrieveProcessOrders,
+    (processOrders) => ({
+        processOrders,
+    })
+  );
+
+
 const processOrders = [
     [1, 2, 3],
     [1, 2, 3],
@@ -12,6 +46,10 @@ const processOrders = [
 const currentDate = moment().format('YY-MM-DD HH:mm');
 
 export default function ProcessOrders(props: any) {
+
+     /**INITIALIZATIONS */
+    // const { processOrders } = useSelector(processOrdersRetriever);
+
     return (
         <TabPanel value="2">
             <Stack>
