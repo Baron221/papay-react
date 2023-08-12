@@ -1,4 +1,5 @@
 import { BoArticles } from "./boArticle";
+import { Order } from "./order";
 import { Product } from "./product";
 import { Restaurant } from "./user";
 
@@ -16,6 +17,7 @@ export interface HomePageState {
     newsBoArticles?: BoArticles[]
 }
 
+/**Restaurant page */
 export interface RestaurantPageState{
     targetRestaurants:Restaurant[];
     randomRestaurants:Restaurant[];
@@ -23,4 +25,11 @@ export interface RestaurantPageState{
     targetProducts:Product[];
     chosenProduct:Product|null;
 
+}
+
+/**Orders Page */
+export interface OrdersPageState {
+    pausedOrders :Order[],
+    processOrders:Order[],
+    finishedOrders:Order[]
 }
