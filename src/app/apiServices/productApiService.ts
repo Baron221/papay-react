@@ -26,6 +26,20 @@ class ProductApiService {
             throw error;
         }
     }
+
+    async getChosenDish(dish_id: string) {
+        try {
+            const url = `/products/${dish_id}`,
+                result = await axios.get(this.path + url, { withCredentials: true })
+            assert.ok(result, Definer.general_err1);
+            console.log('state:', result.data.state);
+            const product: Product = result.data.data;
+            return product;
+        } catch (error: any) {
+            console.log(`ERROR::: getChosenDish ${error.message}`);
+            throw error;
+        }
+    }
 }
 
 export default ProductApiService;
