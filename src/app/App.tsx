@@ -108,14 +108,33 @@ const [cartItems ,setCartItems] = useState<CartItem[]>(current_cart)
    }
   }
 
-  const onRemove =() =>{
-  }
+  const onRemove = (item: CartItem) => {
+    const item_data: any = cartItems.find((ele: CartItem) => ele._id === item._id);
 
-  const onDelete =() =>{
-  }
+    if (item_data.quantity === 1) {
+        const cart_updated = cartItems.filter((ele: CartItem) => ele._id !== item._id);
+        setCartItems(cart_updated);
+        localStorage.setItem("card_data", JSON.stringify(cart_updated))
+    } else {
+        const cart_updated = cartItems.map((ele: CartItem) => ele._id === item._id
+            ? { ...item_data, quantity: item_data.quantity - 1 }
+            : ele
+        )
+        setCartItems(cart_updated);
+        localStorage.setItem("card_data", JSON.stringify(cart_updated))
+    }
+}
 
-  const onDeleteAll =() =>{
-  }
+const onDelete = (item: CartItem) => {
+    const cart_updated = cartItems.filter((ele: CartItem) => ele._id !== item._id);
+    setCartItems(cart_updated);
+    localStorage.setItem("card_data", JSON.stringify(cart_updated))
+}
+
+const onDeleteAll = () => {
+    setCartItems([]);
+    localStorage.removeItem("cart_data")
+}
   return (
     <Router>
       {main_path == "/" ? (
@@ -130,6 +149,9 @@ const [cartItems ,setCartItems] = useState<CartItem[]>(current_cart)
           handleLogOutRequest={handleLogOutRequest}
           
           verifiedMemberData ={verifiedMemberData}
+          onRemove={onRemove}
+          onDelete={onDelete}
+          onDeleteAll={onDeleteAll}
         />
       ) : main_path.includes("/restaurant") ? (
         <NavbarRestaurant
@@ -145,6 +167,9 @@ const [cartItems ,setCartItems] = useState<CartItem[]>(current_cart)
           verifiedMemberData ={verifiedMemberData}
           cartItems={cartItems}
           onAdd={onAdd}
+          onRemove={onRemove}
+          onDelete={onDelete}
+          onDeleteAll={onDeleteAll}
 
         />
       ) : (
@@ -158,6 +183,10 @@ const [cartItems ,setCartItems] = useState<CartItem[]>(current_cart)
           handleLogOutClick={handleLogOutClick}
           handleLogOutRequest={handleLogOutRequest}
           verifiedMemberData ={verifiedMemberData}
+          onAdd={onAdd}
+          onRemove={onRemove}
+          onDelete={onDelete}
+          onDeleteAll={onDeleteAll}
 
         />
       )}
