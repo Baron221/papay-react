@@ -69,7 +69,7 @@ const targetProductsRetriever = createSelector(
   })
 );
 
-export function OneRestaurant() {
+export function OneRestaurant(props:any) {
   /**INITIALIZATIONS */
   const history = useHistory();
   const refs: any = useRef([]);
@@ -352,7 +352,10 @@ export function OneRestaurant() {
                           />
                         </Badge>
                       </Button>
-                      <Button className="view_btn">
+                      <Button className="view_btn"
+                       onClick={(e)=>{ props.onAdd(product);
+                        e.stopPropagation();
+                       }}>
                         <img
                           src="/icons/shopping_cart.svg"
                           alt=""

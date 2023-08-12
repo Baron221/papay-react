@@ -69,7 +69,7 @@ export function NavbarHome(props: any) {
                 Yordam
               </NavLink>
             </Box>
-             <Basket/>
+             <Basket  cartItems={props.cartItems}/>
 
           
             {!props.verifiedMemberData ? (
