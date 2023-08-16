@@ -15,7 +15,7 @@ const communityPageSlice = createSlice({
     },
 });
 
-export const {} = communityPageSlice.actions;
+export const {setTargetBoArticles} = communityPageSlice.actions;
 
 const communityPageReducer = communityPageSlice.reducer;
 export default communityPageReducer;
