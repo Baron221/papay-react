@@ -1,94 +1,151 @@
 import { Box, Stack } from "@mui/material";
 import Button from "@mui/material/Button";
-import TabPanel from '@mui/lab/TabPanel';
-
-//Redux
+import TabPanel from "@mui/lab/TabPanel";
+import { createSelector } from "@reduxjs/toolkit";
+import { retrievePausedOrders } from "../../screens/OrdersPage/selector";
+import { useSelector } from "react-redux";
+import { Order } from "../../types/order";
+import { serviceApi } from "../../../lib/config";
+import { Product } from "../../types/product";
 import {
-    retrievePausedOrders,
+  sweetErrorHandling,
+  sweetFailureProvider,
+} from "../../../lib/sweetAlert";
+import OrderApiService from "../../apiServices/orderApiService";
 
-  } from "../../screens/OrdersPage/selector";
-  import { useDispatch, useSelector } from "react-redux";
-  import { Dispatch } from "@reduxjs/toolkit";
-  import { createSelector } from "reselect";
-  import {
-     setChosenRestaurant,
-    setRandomRestaurants,
-    setTargetProducts,
-  } from "../../screens/RestaurantPage/slice";
-  
-  import { serviceApi } from "../../../lib/config";
-  import assert from "assert";
-  import { Definer } from "../../../lib/Definer";
-  import {
-    sweetErrorHandling,
-    sweetTopSmallSuccessAlert,
-  } from "../../../lib/sweetAlert";
-  import { useHistory } from "react-router-dom";
+const pausedOrdersRetriever = createSelector(
+  retrievePausedOrders,
+  (pausedOrders) => ({
+    pausedOrders,
+  })
+);
 
-
-  
-  /** Redux Selector */
-  const pausedOrdersRetriever = createSelector(
-    retrievePausedOrders,
-    (pausedOrders) => ({
-        pausedOrders,
-    })
-  );
-
-
-const pausedOrders = [
-    [1, 2, 3],
-    [1, 2, 3],
-    [1, 2, 3]
-]
 export default function PausedOrders(props: any) {
-    /**INITIALIZATIONS */
-    // const { pausedOrders } = useSelector(pausedOrdersRetriever);
+  /** INITIALIZATIONS */
+  const { pausedOrders } = useSelector(pausedOrdersRetriever);
 
-    return (
-        <TabPanel value="1">
-            <Stack>
-                {pausedOrders?.map((order) => {
-                    return (
-                        <Box className="order_main_box">
-                            <Box className="order_box_scroll">
-                                {order.map((item) => {
-                                    const img_path = `others/stake.jpg`
-                                    return (
-                                        <Box className="ordersName_price">
-                                            <img className="orderDishImg" src={img_path} alt="" />
-                                            <p className="titleDish">Stake</p>
-                                            <Box className="priceBox">
-                                                <p>$7</p>
-                                                <img src="/icons/Close.svg" alt="" />
-                                                <p>3</p>
-                                                <img src="/icons/Pause.svg" alt="" />
-                                                <p style={{ marginLeft: "15px" }}>$21</p>
-                                            </Box>
-                                        </Box>
-                                    )
-                                })}
-                            </Box>
-                            <Box className="total_price_box black_solid">
-                                <Box className="boxTotal">
-                                    <p>mahuslot narxi </p>
-                                    <p>$21</p>
-                                    <img src="/icons/Plus.svg" style={{ marginLeft: "20px" }} alt="" />
-                                    <p>yetkazish xizmati </p>
-                                    <p>$2</p>
-                                    <img src="/icons/Pause.svg" style={{ marginLeft: "20px" }} alt="" />
-                                    <p>jami narx</p>
-                                    <p>$23</p>
+  /** HANDLERS */
+  const deleteOrderHandler = async (event: any) => {
+    try {
+      const order_id = event.target.value;
+      const data = { order_id: order_id, order_status: "DELETED" };
 
-                                    <Button variant="contained" sx={{mx:"25px"}} style={{borderRadius: "10px"}} color="primary">Bekor Qilish</Button>
-                                    <Button variant="contained" style={{borderRadius: "10px"}} color="secondary">To'lash</Button>
+      if (!localStorage.getItem("member_data")) {
+        sweetFailureProvider(`Please Login First`, true);
+      }
 
-                                </Box>
-                            </Box>
-                        </Box>
-                    )
+      let confirmation = window.confirm(
+        "Buyurtmani bekor qilishni xohlaysizmi?"
+      );
+      if (confirmation) {
+        const orderService = new OrderApiService();
+        await orderService.updateOrderStatus(data);
+
+        props.setOrderRebuild(new Date());
+      }
+    } catch (error) {
+      console.log(`deleteOrderHandler, ERROR:`, error);
+      sweetErrorHandling(error).then();
+    }
+  };
+
+  const processOrderHandler = async (event: any) => {
+    try {
+      const order_id = event.target.value;
+      const data = { order_id: order_id, order_status: "PROCESS" };
+
+      if (!localStorage.getItem("member_data")) {
+        sweetFailureProvider(`Please Login First`, true);
+      }
+
+      let confirmation = window.confirm(
+        "Buyurtmangiz uchun tulov amalga oshirishni tasdiqlaysizmi?"
+      );
+      if (confirmation) {
+        const orderService = new OrderApiService();
+        await orderService.updateOrderStatus(data);
+
+        props.setOrderRebuild(new Date());
+      }
+    } catch (error) {
+      console.log(`processOrderHandler, ERROR:`, error);
+      sweetErrorHandling(error).then();
+    }
+  };
+
+  return (
+    <TabPanel value="1">
+      <Stack>
+        {pausedOrders?.map((order: Order) => {
+          return (
+            <Box className="order_main_box">
+              <Box className="order_box_scroll">
+                {order.order_items.map((item) => {
+                  const product: Product = order.product_data.filter(
+                    (ele) => ele._id === item.product_id
+                  )[0];
+                  const image_path = `${serviceApi}/${product.product_images[0]}`;
+                  return (
+                    <Box className="ordersName_price">
+                      <img className="orderDishImg" src={image_path} alt="" />
+                      <p className="titleDish">{product.product_name}</p>
+                      <Box className="priceBox">
+                        <p>${item.item_price}</p>
+                        <img src="/icons/Close.svg" alt="" />
+                        <p>{item.item_quantity}</p>
+                        <img src="/icons/Pause.svg" alt="" />
+                        <p style={{ marginLeft: "15px" }}>
+                          ${item.item_price * item.item_quantity}
+                        </p>
+                      </Box>
+                    </Box>
+                  );
                 })}
-            </Stack>
-        </TabPanel>
-    )
+              </Box>
+              <Box className="total_price_box black_solid">
+                <Box className="boxTotal">
+                  <p>mahsulot narxi </p>
+                  <p>${order.order_total_amount - order.order_delivery_cost}</p>
+                  <img
+                    src="/icons/Plus.svg"
+                    style={{ marginLeft: "20px" }}
+                    alt=""
+                  />
+                  <p>yetkazish xizmati </p>
+                  <p>${order.order_delivery_cost}</p>
+                  <img
+                    src="/icons/Pause.svg"
+                    style={{ marginLeft: "20px" }}
+                    alt=""
+                  />
+                  <p>jami narx</p>
+                  <p>${order.order_total_amount}</p>
+
+                  <Button
+                    onClick={deleteOrderHandler}
+                    value={order._id}
+                    variant="contained"
+                    sx={{ mx: "25px" }}
+                    style={{ borderRadius: "10px" }}
+                    color="primary"
+                  >
+                    Bekor Qilish
+                  </Button>
+                  <Button
+                    onClick={processOrderHandler}
+                    value={order._id}
+                    variant="contained"
+                    style={{ borderRadius: "10px" }}
+                    color="secondary"
+                  >
+                    To'lash
+                  </Button>
+                </Box>
+              </Box>
+            </Box>
+          );
+        })}
+      </Stack>
+    </TabPanel>
+  );
 }

@@ -35,6 +35,7 @@ import { useHistory } from "react-router-dom";
 import ProductApiService from "../../apiServices/productApiService";
 import { Product } from "../../types/product";
 import { Order } from "../../types/order";
+import OrderApiService from "../../apiServices/orderApiService";
 
 /** Redux Slice */
 const actionDispatch = (dispatch: Dispatch) => ({
@@ -43,16 +44,32 @@ const actionDispatch = (dispatch: Dispatch) => ({
   setFinishedOrders: (data: Order[]) => dispatch(setFinishedOrders(data)),
 });
 
-export function OrdersPage() {
+export function OrdersPage(props: any) {
   /**INITIALIZATIONS */
-  const { setPausedOrders , setProcessOrders ,setFinishedOrders} = actionDispatch(useDispatch());
+  const { setPausedOrders, setProcessOrders, setFinishedOrders } =
+    actionDispatch(useDispatch());
   const [value, setValue] = useState("1");
 
+  useEffect(() => {
+    const orderService = new OrderApiService();
+    orderService
+      .getMyOrders("paused")
+      .then((data) => setPausedOrders(data))
+      .catch((err) => console.log(err));
 
-  useEffect(()=>{},[]);
+    orderService
+      .getMyOrders("process")
+      .then((data) => setProcessOrders(data))
+      .catch((err) => console.log(err));
+
+    orderService
+      .getMyOrders("finished")
+      .then((data) => setFinishedOrders(data))
+      .catch((err) => console.log(err));
+  }, [props.orderRebuild]);
 
   const handleChange = (event: any, newValue: string) => {
-    console.log("newValue" , newValue)
+    console.log("newValue", newValue);
     setValue(newValue);
   };
   return (
@@ -87,9 +104,9 @@ export function OrdersPage() {
               </Box>
             </Box>
             <Stack className="order_main_content">
-              <PausedOrders />
-              <ProcessOrders />
-              <FinishedOrders />
+              <PausedOrders setOrderRebuild={props.setOrderRebuild} />
+              <ProcessOrders setOrderRebuild={props.setOrderRebuild} />
+              <FinishedOrders setOrderRebuild={props.setOrderRebuild} />
             </Stack>
           </TabContext>
         </Stack>

@@ -22,7 +22,7 @@ export default function Basket(props: any) {
 
   const { cartItems, onAdd, onRemove, onDelete, onDeleteAll } = props;
   const itemsPrice = cartItems.reduce(
-    (a: any, c: CartItem) => a + c.price * c.quantity,
+    (a: any, c: CartItem) => a+c.price*c.quantity,
     0
   );
 
@@ -46,6 +46,7 @@ export default function Basket(props: any) {
 
       props.onDeleteAll();
       handleClose();
+      props.setOrderRebuild(new Date())
 
       history.push("/orders")
     } catch (error) {
