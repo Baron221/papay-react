@@ -12,7 +12,7 @@ import "../../../css/order.css";
 
 //Redux
 
-import { Restaurant } from "../../types/user";
+import { Member, Restaurant } from "../../types/user";
 import { useDispatch } from "react-redux";
 import { Dispatch } from "@reduxjs/toolkit";
 import { createSelector } from "reselect";
@@ -44,11 +44,13 @@ const actionDispatch = (dispatch: Dispatch) => ({
   setFinishedOrders: (data: Order[]) => dispatch(setFinishedOrders(data)),
 });
 
+
 export function OrdersPage(props: any) {
   /**INITIALIZATIONS */
   const { setPausedOrders, setProcessOrders, setFinishedOrders } =
     actionDispatch(useDispatch());
   const [value, setValue] = useState("1");
+  const verifiedMemberData:Member | null = props.verifiedMemberData
 
   useEffect(() => {
     const orderService = new OrderApiService();
@@ -122,7 +124,7 @@ export function OrdersPage(props: any) {
             >
               <Box className="order_user_img">
                 <img
-                  src="./restaurant/brooke.svg"
+                  src={verifiedMemberData?.mb_image}
                   className="order_user_avatar"
                   alt=""
                 />
@@ -134,8 +136,8 @@ export function OrdersPage(props: any) {
                   />
                 </Box>
               </Box>
-              <span className="order_user_name">Baron</span>
-              <span className="order_user_prof">User</span>
+              <span className="order_user_name">{verifiedMemberData?.mb_nick}</span>
+              <span className="order_user_prof">{verifiedMemberData?.mb_type ?? "Foydalanuvchi"} User</span>
               <Box
                 sx={{ width: "250%", marginTop: "40px", marginBottom: "8px" }}
               >
@@ -151,7 +153,7 @@ export function OrdersPage(props: any) {
                 <Box sx={{ display: "flex" }}>
                   <LocationOnRoundedIcon />
                 </Box>
-                <Box className="spec_address_text">Busan,Korea</Box>
+                <Box className="spec_address_text">{verifiedMemberData?.mb_address ??'manzil kiritilmagan'}</Box>
               </Stack>
             </Stack>
           </Stack>

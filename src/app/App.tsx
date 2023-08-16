@@ -206,7 +206,11 @@ const onDeleteAll = () => {
           <CommunityPage />
         </Route>
         <Route path="/orders">
-          <OrdersPage orderRebuild={orderRebuild}  setOrderRebuild={setOrderRebuild} />
+          <OrdersPage 
+          orderRebuild={orderRebuild}  
+          setOrderRebuild={setOrderRebuild}
+          verifiedMemberData={verifiedMemberData}
+          />
         </Route>
         <Route path="/member-page">
           <MemberPage />
