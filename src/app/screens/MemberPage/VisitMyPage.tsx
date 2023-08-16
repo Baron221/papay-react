@@ -20,9 +20,58 @@ import YoutubeIcon from "@mui/icons-material/YouTube"
 import { TuiEditor } from "../../components/tuiEditor/TuiEditor";
 import TViewer from "../../components/tuiEditor/Tviewer";
 
-export function VisitMyPage() {
+
+//Redux 
+import { useDispatch, useSelector } from "react-redux";
+import { Dispatch } from "@reduxjs/toolkit";
+import { createSelector } from "reselect";
+import { setChosenMember, setChosenMemberBoArticles, setChosenSingleBoArticle } from "./slice";
+import { retrieveChosenMember, retrieveChosenMemberBoArticles, retrieveChosenSingleBoArticle } from "./selector";
+import { Member } from "../../../types/user";
+import { BoArticle } from "../../../types/boArticle";
+
+
+
+
+/** Redux Slice */
+const actionDispatch = (dispatch: Dispatch) => ({
+    setChosenMember: (data: Member) => dispatch(setChosenMember(data)),
+    setChosenMemberBoArticles: (data: BoArticle[]) => dispatch(setChosenMemberBoArticles(data)),
+    setChosenSingleBoArticle: (data: BoArticle) => dispatch(setChosenSingleBoArticle(data)),
+});
+
+/** Redux Selector */
+const chosenMemberRetriever = createSelector(
+    retrieveChosenMember,
+    (chosenMember) => ({
+        chosenMember
+    })
+);
+const chosenMemberBoArticlesRetriever = createSelector(
+    retrieveChosenMemberBoArticles,
+    (chosenMemberBoArticles) => ({
+        chosenMemberBoArticles
+    })
+);
+const chosenSingleBoArticleRetriever = createSelector(
+    retrieveChosenSingleBoArticle,
+    (chosenSingleBoArticle) => ({
+        chosenSingleBoArticle
+    })
+);
+export function VisitMyPage(props: any) {
+    // INITIALIZATIONS
+    const { setChosenMember,
+        setChosenMemberBoArticles,
+        setChosenSingleBoArticle } = actionDispatch(useDispatch());
+
+    const { chosenMember } = useSelector(chosenMemberRetriever);
+    const { chosenMemberBoArticles } = useSelector(chosenMemberBoArticlesRetriever);
+    const { chosenSingleBoArticle } = useSelector(chosenSingleBoArticleRetriever);
+
 
     const [value, setValue] = React.useState("1")
+    // HANDLERS
 
     const handleChange = (event: any, newValue: string) => {
         setValue(newValue)

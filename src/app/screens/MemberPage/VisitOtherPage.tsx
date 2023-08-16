@@ -17,10 +17,56 @@ import TelegramIcon from "@mui/icons-material/Telegram"
 import YoutubeIcon from "@mui/icons-material/YouTube"
 import TViewer from "../../components/tuiEditor/Tviewer";
 
+//Redux 
+import { useDispatch, useSelector } from "react-redux";
+import { Dispatch } from "@reduxjs/toolkit";
+import { createSelector } from "reselect";
+import { setChosenMember, setChosenMemberBoArticles, setChosenSingleBoArticle } from "./slice";
+import { retrieveChosenMember, retrieveChosenMemberBoArticles, retrieveChosenSingleBoArticle } from "./selector";
+import { Member } from "../../types/user";
+import { BoArticles } from "../../types/boArticle";
 
-export function VisitOtherPage() {
+/** Redux Slice */
+const actionDispatch = (dispatch: Dispatch) => ({
+    setChosenMember: (data: Member) => dispatch(setChosenMember(data)),
+    setChosenMemberBoArticles: (data: BoArticles[]) => dispatch(setChosenMemberBoArticles(data)),
+    setChosenSingleBoArticle: (data: BoArticles) => dispatch(setChosenSingleBoArticle(data)),
+});
+
+/** Redux Selector */
+const chosenMemberRetriever = createSelector(
+    retrieveChosenMember,
+    (chosenMember) => ({
+        chosenMember
+    })
+);
+const chosenMemberBoArticlesRetriever = createSelector(
+    retrieveChosenMemberBoArticles,
+    (chosenMemberBoArticles) => ({
+        chosenMemberBoArticles
+    })
+);
+const chosenSingleBoArticleRetriever = createSelector(
+    retrieveChosenSingleBoArticle,
+    (chosenSingleBoArticle) => ({
+        chosenSingleBoArticle
+    })
+);
+
+export function VisitOtherPage(props: any) {
+    /** INITIALIZATIONS */
+    const { setChosenMember,
+        setChosenMemberBoArticles,
+        setChosenSingleBoArticle } = actionDispatch(useDispatch());
+
+    const { chosenMember } = useSelector(chosenMemberRetriever);
+    const { chosenMemberBoArticles } = useSelector(chosenMemberBoArticlesRetriever);
+    const { chosenSingleBoArticle } = useSelector(chosenSingleBoArticleRetriever);
+
+
     const [value, setValue] = React.useState("4")
 
+    /** HANDLERS */
     const handleChange = (event: any, newValue: string) => {
         setValue(newValue)
     };
@@ -77,7 +123,7 @@ export function VisitOtherPage() {
                                 <Box className="menu_name">Tanlangan Maqola</Box>
                                 <Box className="menu_content">
                                     <Box className="write_content">
-                                    <TViewer text={`<h3> Hello </h3>`} />
+                                        <TViewer text={`<h3> Hello </h3>`} />
                                     </Box>
                                 </Box>
                             </TabPanel>
@@ -123,16 +169,16 @@ export function VisitOtherPage() {
                                                 </Button>
                                             )}
                                         />
-                                    ): (
+                                    ) : (
                                         <Tab
-                                        style={{ flexDirection: "column" }}
-                                        value={"4"}
-                                        component={(e) => (
-                                            <Button variant="contained" style={{background:"#30945e"}} onClick={() => setValue("4")}>
-                                                Follow qilish
-                                            </Button>
-                                        )}
-                                    />
+                                            style={{ flexDirection: "column" }}
+                                            value={"4"}
+                                            component={(e) => (
+                                                <Button variant="contained" style={{ background: "#30945e" }} onClick={() => setValue("4")}>
+                                                    Follow qilish
+                                                </Button>
+                                            )}
+                                        />
                                     )}
 
                                 </TabList>
