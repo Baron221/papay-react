@@ -87,7 +87,7 @@ export function VisitMyPage(props: any) {
   const { chosenSingleBoArticle } = useSelector(chosenSingleBoArticleRetriever);
 
   const [value, setValue] = React.useState("1");
-  const [articlesRebuild, setArticlesRebuild] = useState<Date>(new Date())
+  const [articlesRebuild, setArticlesRebuild] = useState<Date>(new Date());
   const [memberArticleSearchObj, setMemberArticleSearchObj] =
     useState<SearchMemberArticlesObj>({ mb_id: "none", page: 1, limit: 5 });
 
@@ -110,7 +110,7 @@ export function VisitMyPage(props: any) {
       .getChosenMember(verifiedMemberData?._id)
       .then((data) => setChosenMember(data))
       .catch((err) => console.log(err));
-  }, [memberArticleSearchObj,articlesRebuild]);
+  }, [memberArticleSearchObj, articlesRebuild]);
 
   // HANDLERS
 
@@ -128,7 +128,10 @@ export function VisitMyPage(props: any) {
       const communityService = new CommunityApiService();
       communityService
         .getChosenArticle(art_id)
-        .then((data) => setChosenSingleBoArticle(data))
+        .then((data) => {
+          setChosenSingleBoArticle(data);
+          setValue("5");
+        })
         .catch((err) => console.log(err));
     } catch (err: any) {
       console.log(err);
@@ -146,11 +149,11 @@ export function VisitMyPage(props: any) {
                 <TabPanel value="1">
                   <Box className="menu_name">Mening maqolalarim</Box>
                   <Box className="menu_content">
-                    <MemberPosts 
-                     chosenMemberBoArticles={chosenMemberBoArticles}
-                     renderChosenArticleHandler={renderChosenArticleHandler}
-                     setArticlesRebuild={setArticlesRebuild}
-                     />
+                    <MemberPosts
+                      chosenMemberBoArticles={chosenMemberBoArticles}
+                      renderChosenArticleHandler={renderChosenArticleHandler}
+                      setArticlesRebuild={setArticlesRebuild}
+                    />
                     <Stack
                       sx={{ my: "40px" }}
                       direction={"row"}
@@ -159,8 +162,8 @@ export function VisitMyPage(props: any) {
                     >
                       <Box className="bottom_box">
                         <Pagination
-                          count={3}
-                          page={1}
+                          count={memberArticleSearchObj.limit}
+                          page={memberArticleSearchObj.page}
                           renderItem={(item) => (
                             <PaginationItem
                               components={{
@@ -201,7 +204,9 @@ export function VisitMyPage(props: any) {
                   <Box className="menu_name">Tanlangan Maqola</Box>
                   <Box className="menu_content">
                     <Box className="write_content">
-                      <TViewer text={`<h3> Hello </h3>`} />
+                      <TViewer
+                        chosenSingleBoArticle={chosenSingleBoArticle}
+                      />
                     </Box>
                   </Box>
                 </TabPanel>
