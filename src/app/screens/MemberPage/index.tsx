@@ -12,6 +12,7 @@ function useQuery() {
 
 export function MemberPage(props: any) {
     const { verifiedMemberData } = props;
+    console.log("memberpageverify:::",verifiedMemberData)
     let restaurant = useRouteMatch();
     const query = useQuery();
     const chosen_mb_id: string | null = query.get("mb_id");

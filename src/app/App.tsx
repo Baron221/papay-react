@@ -56,6 +56,7 @@ const [cartItems ,setCartItems] = useState<CartItem[]>(current_cart)
         ? `${serviceApi}/${member_data.mb_image}`
         : "/auth/default_user.svg ";
         setVerifiedMemberData(member_data);
+        console.log("verifiedApp:::",verifiedMemberData)
     }
   }, [signUpOpen , loginOpen]);
 
