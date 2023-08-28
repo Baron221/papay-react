@@ -1,8 +1,8 @@
-import React from "react";
-import { Container, Stack, Box, Button, IconButton, Badge, MenuItem, ListItemIcon, Menu } from "@mui/material";
+import { Container, Stack, Box, Button, MenuItem, ListItemIcon, Menu } from "@mui/material";
 import { NavLink } from "react-router-dom";
 import { Logout } from "@mui/icons-material";
 import Basket from "./basket";
+import { verifiedMemberData } from "../../apiServices/verify";
 
 
 
@@ -24,7 +24,7 @@ export function NavbarRestaurant(props: any) {
                             Oshhona
                         </NavLink>
                     </Box>
-                    {props.verifiedMemberData ?
+                    {verifiedMemberData ?
                         <Box className="hover-line" onClick={props.setPath}>
                             <NavLink to={"/orders"} activeClassName="underline">
                                 Buyurtma
@@ -37,7 +37,7 @@ export function NavbarRestaurant(props: any) {
                             Jamiyat
                         </NavLink>
                     </Box>
-                    {props.verifiedMemberData ?
+                    {verifiedMemberData ?
                         <Box className="hover-line" onClick={props.setPath}>
                             <NavLink to={"/member-page"} activeClassName="underline">
                                 Sahifam
@@ -57,11 +57,10 @@ export function NavbarRestaurant(props: any) {
                         onDelete={props.onDelete}
                         onDeleteAll={props.onDeleteAll}
                         setOrderRebuild={props.setOrderRebuild}
-
                     />
 
 
-                    {!props.verifiedMemberData ?
+                    {!verifiedMemberData ?
                         <Box >
                             <Button variant="contained"
                                 style={{ color: "#FFFFFF", background: "#1976d2" }}
@@ -70,7 +69,8 @@ export function NavbarRestaurant(props: any) {
                                 Kirish
                             </Button>
                         </Box> :
-                        <img style={{ width: "48px", height: "48px", borderRadius: "24px" }} src={props.verifiedMemberData.mb_image}
+                        <img style={{ width: "48px", height: "48px", borderRadius: "24px" }}
+                            src={verifiedMemberData.mb_image}
                             onClick={props.handleLogOutClick}
                         />
                     }
@@ -116,7 +116,6 @@ export function NavbarRestaurant(props: any) {
                             </ListItemIcon>
                         </MenuItem>
                     </Menu>
-
                 </Stack>
             </Stack>
         </Container>

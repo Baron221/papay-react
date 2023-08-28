@@ -1,11 +1,12 @@
-import React, { useEffect, useState } from "react";
-import { Container, Stack, Box, Button, IconButton, Badge, MenuItem, ListItemIcon, Menu } from "@mui/material";
+import { Container, Stack, Box, Button, MenuItem, ListItemIcon, Menu } from "@mui/material";
 import { NavLink } from "react-router-dom";
 import { Logout } from "@mui/icons-material";
 import Basket from "./basket";
 import "../../../css/navbar.css"
-export function NavbarHome(props: any) {
+import { verifiedMemberData } from "../../apiServices/verify";
 
+
+export function NavbarHome(props: any) {
 
     return (<div className="format home_navbar">
         <Container>
@@ -24,7 +25,7 @@ export function NavbarHome(props: any) {
                             Oshhona
                         </NavLink>
                     </Box>
-                    {props.verifiedMemberData ?
+                    {verifiedMemberData ?
                         <Box className="hover-line" onClick={props.setPath}>
                             <NavLink to={"/orders"} activeClassName="underline">
                                 Buyurtma
@@ -37,13 +38,13 @@ export function NavbarHome(props: any) {
                             Jamiyat
                         </NavLink>
                     </Box>
-                    {props.verifiedMemberData ?
+                    {verifiedMemberData ? (
                         <Box className="hover-line" onClick={props.setPath}>
                             <NavLink to={"/member-page"} activeClassName="underline">
                                 Sahifam
                             </NavLink>
-                        </Box> :
-                        null
+                        </Box>
+                    ) : null
                     }
                     <Box className="hover-line" onClick={props.setPath}>
                         <NavLink to={"/help"} activeClassName="underline">
@@ -60,7 +61,7 @@ export function NavbarHome(props: any) {
 
                     />
 
-                    {!props.verifiedMemberData ?
+                    {!verifiedMemberData ?
                         <Box >
                             <Button variant="contained"
                                 style={{ color: "#FFFFFF", background: "#1976d2" }}
@@ -70,7 +71,7 @@ export function NavbarHome(props: any) {
                             </Button>
                         </Box> :
                         <img style={{ width: "48px", height: "48px", borderRadius: "24px" }}
-                            src={props.verifiedMemberData.mb_image}
+                            src={verifiedMemberData.mb_image}
                             onClick={props.handleLogOutClick}
                         />
                     }
@@ -78,8 +79,8 @@ export function NavbarHome(props: any) {
                     <Menu
                         open={props.open}
                         anchorEl={props.anchorEl}
-                        onClose={props.handleCloseLogout}
-                        onClick={props.handleCloseLogout}
+                        onClose={props.handleCloseLogOut}
+                        onClick={props.handleCloseLogOut}
                         PaperProps={{
                             elevation: 0,
                             sx: {
@@ -128,7 +129,7 @@ export function NavbarHome(props: any) {
                     <Box className="define_restaurant">The Authentic Restaurant & Cafe</Box>
                     <Box className="timeline_service">24 soat xizmatingizdamiz.</Box>
                     <Box sx={{ mt: "90px" }}>
-                        {!props.verifiedMemberData ?
+                        {!verifiedMemberData ?
                             <Button variant="contained" onClick={props.handleSignUpOpen}
                                 style={{ width: "210px", height: "60px", background: "#1976d2", color: "#FFFFFF" }}
                             >
