@@ -3,8 +3,8 @@ import { Dispatch } from "@reduxjs/toolkit";
 import { Box, Container, Stack } from "@mui/material";
 import "../../../css/order.css"
 import Tab from '@material-ui/core/Tab';
-import { TabContext } from '@mui/lab';
-import {TabList} from '@mui/lab';
+import TabContext from '@material-ui/lab/TabContext';
+import TabList from '@material-ui/lab/TabList';
 import ProcessOrders from "../../components/orders/processOrders";
 import FinishedOrders from "../../components/orders/finishedOrders";
 import PausedOrders from "../../components/orders/pausedOrders";
@@ -115,7 +115,7 @@ export function OrdersPage(props: any) {
                             <input type="text" name="card_period" placeholder="07 / 24" className="card_half_input" />
                             <input type="text" name="card_cvv" placeholder="CVV : 013" className="card_half_input" />
                         </Stack>
-                        <input type="text" name="card_creator" placeholder="Javokhirbek Eshboltaev" className="card_input" />
+                        <input type="text" name="card_creator" placeholder="BARON" className="card_input" />
                         <Stack className="card_box">
                             <img src="/icons/western-union.svg" alt="1" />
                             <img src="http://papays.uz/icons/master_card.svg" alt="2" />
