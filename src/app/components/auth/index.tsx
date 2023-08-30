@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Modal from "@material-ui/core/Modal";
 import Backdrop from "@material-ui/core/Backdrop";
@@ -35,70 +35,77 @@ const ModalImg = styled.img`
 `;
 
 export default function AuthenticationModal(props: any) {
-  /**INITIALIZATIONS */
+  /** INITIAlIZATIONS */
   const classes = useStyles();
-  let mb_nick: string = "",
-    mb_phone: number = 0,
-    mb_password: string = "";
 
-  /**HANDLERS */
-  const handleUserName = (e: any) => {
-    mb_nick = e.target.value;
-    console.log(mb_nick);
-  };
-
+  const [mb_nick, set_mb_nick] = useState<string>("");
+  const [mb_phone, set_mb_phone] = useState<number>(0);
+  const [mb_password, set_mb_password] = useState<string>("");
+  /** HANDLERS */
+  const handleUsername = (e: any) => {
+    set_mb_nick(e.target.value);
+  }
   const handlePhone = (e: any) => {
-    mb_phone = e.target.value;
-    console.log(mb_phone);
-  };
-
+    set_mb_phone(e.target.value);
+  }
   const handlePassword = (e: any) => {
-    mb_password = e.target.value;
-    console.log(mb_password);
-  };
-  const handleSignUpRequest = async () => {
+    set_mb_password(e.target.value);
+  }
+
+  const handleSignupRequest = async () => {
     try {
       const is_fulfilled = mb_nick != "" && mb_password != "" && mb_phone != 0;
       assert.ok(is_fulfilled, Definer.input_err1);
-
       const signup_data = {
         mb_nick: mb_nick,
         mb_phone: mb_phone,
-        mb_password: mb_password,
+        mb_password: mb_password
       };
 
-      const memberApiService = new MemberApiService();
+      const memberApiService = new MemberApiService;
       await memberApiService.signupRequest(signup_data);
 
       props.handleSignUpClose();
       window.location.reload();
-    } catch (err) {
-      console.log(err);
-      sweetErrorHandling(err).then();
+    } catch (error) {
+      console.log(error);
+      props.handleSignUpClose();
+      sweetErrorHandling(error).then()
     }
-  };
+  }
+
 
   const handleLoginRequest = async () => {
     try {
       const is_fulfilled = mb_nick != "" && mb_password != "";
       assert.ok(is_fulfilled, Definer.input_err1);
-
       const login_data = {
         mb_nick: mb_nick,
-        mb_password: mb_password,
+        mb_password: mb_password
       };
 
-      const memberApiService = new MemberApiService();
+      const memberApiService = new MemberApiService;
       await memberApiService.loginRequest(login_data);
 
       props.handleLoginClose();
       window.location.reload();
-    } catch (err) {
-      console.log(err);
+    } catch (error) {
+      console.log(error);
       props.handleLoginClose();
-      sweetErrorHandling(err).then();
+      sweetErrorHandling(error).then()
     }
   };
+
+  const passwordKeyPressHandler = (e: any) => {
+    if (e.key == "Enter" && props.signUpOpen) {
+      handleSignupRequest().then();
+    } else if (e.key == "Enter" && props.loginOpen) {
+      handleLoginRequest().then();
+    }
+  }
+
+
+
   return (
     <div>
       {/*@ts-ignore*/}
@@ -124,7 +131,7 @@ export default function AuthenticationModal(props: any) {
             <Stack sx={{ marginLeft: "69px", alignItems: "center" }}>
               <h2>SignUp Form</h2>
               <TextField
-                onChange={handleUserName}
+                onChange={handleUsername}
                 sx={{ marginTop: "7px" }}
                 id="outlined-basic"
                 label="username"
@@ -139,12 +146,13 @@ export default function AuthenticationModal(props: any) {
               />
               <TextField
                 onChange={handlePassword}
+                onKeyPress={passwordKeyPressHandler}
                 id="outlined-basic"
                 label="password"
                 variant="outlined"
               />
               <Fab
-                onClick={handleSignUpRequest}
+                onClick={handleSignupRequest}
                 sx={{ marginTop: "30px", width: "120px" }}
                 variant="extended"
                 color="primary"
@@ -186,7 +194,7 @@ export default function AuthenticationModal(props: any) {
             >
               <h2>Login Form</h2>
               <TextField
-                onChange={handleUserName}
+                onChange={handleUsername}
                 id="outlined-basic"
                 label="username"
                 variant="outlined"
@@ -194,6 +202,7 @@ export default function AuthenticationModal(props: any) {
               />
               <TextField
                 onChange={handlePassword}
+                onKeyPress={passwordKeyPressHandler}
                 id="outlined-basic"
                 label="password"
                 variant="outlined"

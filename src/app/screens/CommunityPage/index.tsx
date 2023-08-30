@@ -12,10 +12,10 @@ import { useEffect, useState } from "react";
 import { CommunityChats } from "./communityChats";
 import { TargetArticles } from "./targetArticles";
 import CommunityApiService from "../../apiServices/communityApiService";
-import { BoArticles, SearchArticlesObj } from "../../../app/types/boArticle";
+import { BoArticles, SearchArticlesObj } from "../../types/boArticle";
 
 
-//Redux 
+//Redux
 import { useDispatch, useSelector } from "react-redux";
 import { Dispatch } from "@reduxjs/toolkit";
 import { createSelector } from "reselect";
@@ -128,8 +128,8 @@ export function CommunityPage(props: any) {
 
                 <Box className="article_bott">
                   <Pagination
-                    count={3}
-                    page={1}
+                    count={searchArticleObj.page >= 3 ? searchArticleObj.page + 1 : 3}
+                    page={searchArticleObj.page}
                     renderItem={(item) => (
                       <PaginationItem
                         components={{ previous: ArrowBack, next: ArrowForward }}

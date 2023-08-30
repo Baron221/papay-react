@@ -1,14 +1,13 @@
 import { MeLiked } from "./product";
 import { Member } from "./user";
 
-
-
 export interface BoArticleInput {
     art_subject: string;
     art_content: string;
     art_image: string;
     bo_id: string;
 }
+
 export interface BoArticles {
     _id: string;
     art_subject: string;
@@ -29,11 +28,11 @@ export interface SearchArticlesObj {
     page: number;
     limit: number;
     bo_id: string;
-    order?: number | null;
+    order?: string | null;
 }
 
 export interface SearchMemberArticlesObj {
     page: number;
-    limit:number;
-    mb_id:string
+    limit: number;
+    mb_id: string;
 }
