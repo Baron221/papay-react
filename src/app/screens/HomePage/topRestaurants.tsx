@@ -1,7 +1,6 @@
 import { Box, Container } from "@mui/material";
 import { Stack } from "@mui/system";
 import React, { useRef } from "react";
-import { useHistory } from "react-router-dom";
 import Card from "@mui/joy/Card";
 import CardCover from "@mui/joy/CardCover";
 import CardContent from "@mui/joy/CardContent";
@@ -16,43 +15,50 @@ import { useSelector } from "react-redux";
 import { createSelector } from "@reduxjs/toolkit";
 import { retrieveTopRestaurants } from "../../screens/HomePage/selector";
 import { Restaurant } from "../../types/user";
+
 import { serviceApi } from "../../../lib/config";
 import { sweetErrorHandling, sweetTopSmallSuccessAlert } from "../../../lib/sweetAlert";
 import assert from "assert";
 import { Definer } from "../../../lib/Definer";
 import MemberApiService from "../../apiServices/memberApiService";
+import { useHistory } from "react-router-dom";
+import { verifiedMemberData } from "../../apiServices/verify";
+
 
 /** Redux Selector */
 const topRestaurantRetriever = createSelector(
   retrieveTopRestaurants,
   (topRestaurants) => ({
-    topRestaurants,
+    topRestaurants
   })
 );
 
 export function TopRestaurants() {
   /**INITIALIZATIONS */
+  const { topRestaurants } = useSelector(topRestaurantRetriever)
+  const refs: any = useRef([]);
   const history = useHistory();
-  const { topRestaurants } = useSelector(topRestaurantRetriever);
 
   console.log("topRestaurants:::", topRestaurants);
-  const refs: any = useRef([]);
 
-  /*HANDLERS */
-
+  /** HANDLERS */
   const chosenRestaurantHandler = (id: string) => {
+    // console.log("===history::", history);
     history.push(`/restaurant/${id}`);
-  };
+    // console.log("===afterPushhistory::", history);
+  }
 
   const targetLikeTop = async (e: any, id: string) => {
     try {
-      assert.ok(localStorage.getItem("member_data"), Definer.auth_err1);
-      const memberService = new MemberApiService();
-      const like_result: any = await memberService.memberLikeTarget({
-        like_ref_id: id,
-        group_type: "member",
-      });
+      assert.ok(verifiedMemberData, Definer.auth_err1);
+
+      const memberService = new MemberApiService(),
+        like_result: any = await memberService.memberLikeTarget({
+          like_ref_id: id,
+          group_type: "member"
+        });
       assert.ok(like_result, Definer.general_err1);
+
 
       if (like_result.like_status > 0) {
         e.target.style.fill = "red";
@@ -61,10 +67,10 @@ export function TopRestaurants() {
         e.target.style.fill = "white";
         refs.current[like_result.like_ref_id].innerHTML--;
       }
-      await sweetTopSmallSuccessAlert("success", 700 ,false)
 
+      await sweetTopSmallSuccessAlert("success", 700, false)
     } catch (err: any) {
-      console.log("targetLikeTop, ERORR:", err);
+      console.log("targetLikeTop, ERROR:", err);
       sweetErrorHandling(err).then();
     }
   };
@@ -78,13 +84,10 @@ export function TopRestaurants() {
           sx={{ mt: "45px" }}
         >
           <Box className="category_title">TOP Restauranlar</Box>
-          <Stack sx={{ mt: "43px" }} flexDirection={"row"} m={"16px"}>
-            {topRestaurants?.map((ele: Restaurant) => {
-              const image_path = `${serviceApi}/${ele.mb_image}`;
-              function targetLikeHandler(e: React.MouseEvent<SVGSVGElement, MouseEvent>, _id: string): void {
-                throw new Error("Function not implemented.");
-              }
+          <Stack sx={{ mt: "43px", pl: "30px" }} flexDirection={"row"} m={"16px"}>
 
+            {topRestaurants?.map((ele: Restaurant) => {
+              const image_path = `${serviceApi}/${ele.mb_image}`
               return (
                 <CssVarsProvider key={ele._id}>
                   <Card
@@ -94,7 +97,6 @@ export function TopRestaurants() {
                       minWidth: 325,
                       mr: "35px",
                       cursor: "pointer",
-                      marginLeft: "30px",
                     }}
                   >
                     <CardCover>
@@ -107,12 +109,7 @@ export function TopRestaurants() {
                       }}
                     />
                     <CardContent sx={{ justifyContent: "flex-end" }}>
-                      <Typography
-                        level="h2"
-                        fontSize="lg"
-                        textColor="#fff"
-                        mb={1}
-                      >
+                      <Typography level="h2" fontSize="lg" textColor="#fff" mb={1}>
                         {ele.mb_nick}
                       </Typography>
                       <Typography
@@ -132,6 +129,7 @@ export function TopRestaurants() {
                       }}
                     >
                       <IconButton
+                        onClick={(e) => e.stopPropagation()}
                         aria-label="Like minimal photography"
                         size="md"
                         variant="solid"
@@ -145,18 +143,14 @@ export function TopRestaurants() {
                           transform: "translateY(50%)",
                           color: "rgba(0, 0, 0, .4)",
                         }}
-                        onClick={(e)=>{
-                          e.stopPropagation();}}
                       >
                         <Favorite
-                          onClick={(e) => targetLikeHandler(e, ele._id)}
+                          onClick={(e) => targetLikeTop(e, ele._id)}
                           style={{
-                            fill:
-                              ele?.me_liked && ele?.me_liked[0]?.my_favorite
-                                ? "red"
-                                : "white",
-                          }}
-                        />
+                            fill: ele?.me_liked && ele?.me_liked[0]?.my_favorite
+                              ? "red"
+                              : "white"
+                          }} />
                       </IconButton>
 
                       <Typography
@@ -169,9 +163,7 @@ export function TopRestaurants() {
                         }}
                       >
                         {ele.mb_views}
-                        <VisibilityIcon
-                          sx={{ fontSize: 20, marginLeft: "5px" }}
-                        />
+                        <VisibilityIcon sx={{ fontSize: 20, marginLeft: "5px" }} />
                       </Typography>
                       <Box sx={{ width: 2, bgcolor: "devider" }} />
                       <Typography
@@ -191,9 +183,12 @@ export function TopRestaurants() {
                       </Typography>
                     </CardOverflow>
                   </Card>
+
                 </CssVarsProvider>
-              );
+              )
             })}
+
+
           </Stack>
         </Stack>
       </Container>

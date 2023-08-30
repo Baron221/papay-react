@@ -16,6 +16,7 @@ import MemberApiService from "../../apiServices/memberApiService";
 import { Definer } from "../../../lib/Definer";
 import { sweetErrorHandling, sweetTopSmallSuccessAlert } from "../../../lib/sweetAlert";
 import { useHistory } from "react-router-dom";
+import { verifiedMemberData } from "../../apiServices/verify";
 
 /** Redux Selector */
 const bestRestaurantRetriever = createSelector(
@@ -39,7 +40,7 @@ export function BestRestaurants() {
     const goRestaurantsHandler = () => history.push("/restaurant")
     const targetLikeBest = async (e: any, id: string) => {
         try {
-            assert.ok(localStorage.getItem("member_data"), Definer.auth_err1);
+            assert.ok(verifiedMemberData, Definer.auth_err1);
 
             const memberService = new MemberApiService(),
                 like_result: any = await memberService.memberLikeTarget({
@@ -70,10 +71,8 @@ export function BestRestaurants() {
         <Container sx={{ paddingTop: "153px" }}>
             <Stack flexDirection={"column"} alignItems={"center"}>
                 <Box className="category_title">
-                    Zo'r restaurantlar
+                    Zo'r restauarntlar
                 </Box>
-
-
                 <Stack sx={{ mt: "43px" }} flexDirection={"row"}>
                     {bestRestaurants?.map((ele: Restaurant) => {
                         const image_path = `${serviceApi}/${ele.mb_image}`
@@ -82,7 +81,7 @@ export function BestRestaurants() {
                                 <Card
                                     onClick={() => chosenRestaurantHandler(ele._id)}
                                     variant="outlined"
-                                    sx={{ minHeight: 483, minWidth: 320, mr: "35px", marginLeft: "30px", cursor: "pointer" }}
+                                    sx={{ minHeight: 483, minWidth: 320, m: "20px", cursor: "pointer" }}
                                 >
                                     <CardOverflow>
                                         <AspectRatio ratio={"1"}>

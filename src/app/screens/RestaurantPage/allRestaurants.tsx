@@ -12,7 +12,7 @@ import CallIcon from '@mui/icons-material/Call';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 
 
-//Redux 
+//Redux
 import { retrieveTargetRestaurants } from "../../screens/RestaurantPage/selector";
 import { Restaurant } from "../../types/user";
 import { useDispatch, useSelector } from "react-redux";
@@ -27,6 +27,7 @@ import { Definer } from "../../../lib/Definer";
 import MemberApiService from "../../apiServices/memberApiService";
 import { sweetErrorHandling, sweetTopSmallSuccessAlert } from "../../../lib/sweetAlert";
 import { useHistory } from "react-router-dom";
+import { verifiedMemberData } from "../../apiServices/verify";
 
 /** Redux Slice */
 const actionDispatch = (dispatch: Dispatch) => ({
@@ -74,7 +75,7 @@ export function AllRestaurants() {
 
     const targetLikeHandler = async (e: any, id: string) => {
         try {
-            assert.ok(localStorage.getItem("member_data"), Definer.auth_err1);
+            assert.ok(verifiedMemberData, Definer.auth_err1);
 
             const memberService = new MemberApiService(),
                 like_result: any = await memberService.memberLikeTarget({

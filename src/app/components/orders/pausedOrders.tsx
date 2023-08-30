@@ -1,6 +1,6 @@
 import { Box, Stack } from "@mui/material";
 import Button from "@mui/material/Button";
-import TabPanel from "@mui/lab/TabPanel";
+import TabPanel from "@material-ui/lab/TabPanel";
 import { createSelector } from "@reduxjs/toolkit";
 import { retrievePausedOrders } from "../../screens/OrdersPage/selector";
 import { useSelector } from "react-redux";
@@ -12,6 +12,7 @@ import {
   sweetFailureProvider,
 } from "../../../lib/sweetAlert";
 import OrderApiService from "../../apiServices/orderApiService";
+import { verifiedMemberData } from "../../apiServices/verify";
 
 const pausedOrdersRetriever = createSelector(
   retrievePausedOrders,
@@ -30,7 +31,7 @@ export default function PausedOrders(props: any) {
       const order_id = event.target.value;
       const data = { order_id: order_id, order_status: "DELETED" };
 
-      if (!localStorage.getItem("member_data")) {
+      if (!verifiedMemberData) {
         sweetFailureProvider(`Please Login First`, true);
       }
 
@@ -54,7 +55,7 @@ export default function PausedOrders(props: any) {
       const order_id = event.target.value;
       const data = { order_id: order_id, order_status: "PROCESS" };
 
-      if (!localStorage.getItem("member_data")) {
+      if (!verifiedMemberData) {
         sweetFailureProvider(`Please Login First`, true);
       }
 
@@ -104,7 +105,7 @@ export default function PausedOrders(props: any) {
               </Box>
               <Box className="total_price_box black_solid">
                 <Box className="boxTotal">
-                  <p>mahsulot narxi </p>
+                  <p>mahuslot narxi </p>
                   <p>${order.order_total_amount - order.order_delivery_cost}</p>
                   <img
                     src="/icons/Plus.svg"
