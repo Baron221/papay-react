@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Dispatch } from "@reduxjs/toolkit";
 import { Box, Container, Stack } from "@mui/material";
-import "../../../css/orders.css"
+import "../../../css/order.css"
 import Tab from '@material-ui/core/Tab';
 import { TabContext } from '@mui/lab';
 import {TabList} from '@mui/lab';

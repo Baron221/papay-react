@@ -13,19 +13,19 @@ export interface ProductSearchObject {
 }
 
 export interface MemberLiken {
-    like_group:string,
-    like_status:number,
-    like_ref_id:string,
+    like_group: string,
+    like_status: number,
+    like_ref_id: string
 }
 
 export interface CartItem {
-    _id: string;
-    quantity:number;
-    name:string;
-    price:number;
-    image:string;
-
+    _id: string,
+    quantity: number,
+    name: string,
+    price: number,
+    image: string
 }
+
 export interface FollowSeachObj {
     page: number;
     limit: number;
